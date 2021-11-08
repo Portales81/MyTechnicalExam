@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Swashbuckle;
 
 namespace FileUpload
 {
@@ -32,7 +33,20 @@ namespace FileUpload
             services.AddControllers();
             services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ITransactionsRepository, TransactionsRepository>();
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("FileUploaderOpenApi",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "FileUploaderOpenApi",
+                        Version = "1",
+                        Description = "Technical Exam - 2021{ Nelson Portales}"
+                    });
 
+                {
+
+                }
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,7 +56,11 @@ namespace FileUpload
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSwagger();
+            app.UseSwaggerUI(options => {
+                options.SwaggerEndpoint("http://localhost:32935/swagger/FileUploaderOpenApi/swagger.json","FileUploader Api");
+                options.RoutePrefix = "";
+            });
             app.UseRouting();
 
             app.UseAuthorization();

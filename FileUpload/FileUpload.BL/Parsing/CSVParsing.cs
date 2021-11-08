@@ -1,4 +1,5 @@
-﻿using FileUpload.BL.Model;
+﻿using CsvHelper;
+using FileUpload.BL.Model;
 //using Microsoft.AspNetCore.Http;
 using Microsoft.VisualBasic.FileIO;
 using System;
@@ -34,6 +35,7 @@ namespace FileUpload.BusinessLogic
                     transaction.CurrencyCode = fields[2];
                     string[] dateString = fields[3].Split('/');
                     DateTime enter_date = Convert.ToDateTime(dateString[1] + "/" + dateString[0] + "/" + dateString[2]);
+                    
                     //enter_date.ToString("dd/MM/yyyy HH:mm:ss");
                     //transactions.TransactionDate = Convert.ToDateTime(fields[3]);
                     transaction.TransactionDate = enter_date;

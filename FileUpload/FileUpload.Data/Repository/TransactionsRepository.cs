@@ -29,6 +29,23 @@ namespace FileUpload.Data.Repository
             return transactionEntity.SingleOrDefault(s => s.Id == id);
         }
 
+        public IEnumerable<Transactions> GetTransactionByCurrency(string currencyCode)
+        {
+           return _context.Transactions.Where(x => x.CurrencyCode == currencyCode.ToLower().TrimEnd()).ToList();
+        }
+
+        public IEnumerable<Transactions> GetTransactionByDateRange(DateTime startdate, DateTime endDate)
+        {
+            return _context.Transactions.Where(x => 
+            x.TransactionDate <= startdate
+            && x.TransactionDate >= endDate).ToList();
+        }
+
+        public IEnumerable<Transactions> GetTransactionByStatus(string status)
+        {
+            return _context.Transactions.Where(x => x.Status == status.ToLower().TrimEnd()).ToList();
+        }
+
         public void SaveTransaction(Transactions transaction)
         {
             _context.Entry(transaction).State = EntityState.Added;
